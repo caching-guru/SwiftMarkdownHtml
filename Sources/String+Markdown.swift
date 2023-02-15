@@ -89,18 +89,13 @@ public extension String {
                 else {
                     ret = ret + "<htmltag>\(html.rawHTML)"
                 }
-                
-                
-                
-                
-                
             }
-            
         }
         else if let ul = p as? Emphasis {
             ret = ret + "<i>"
         } else if let inlineCode = p as? InlineCode {
-            ret = ret + "<code class=\"language-javascript\">"
+            ret = ret + "<code class=\"language-javascript\">\(inlineCode.code)</code>"
+            return ret
         } else if let link = p as? Link, let d = link.destination {
             ret = ret + "<a href=\"\(d)\">"
         } else if let image = p as? Image, let source = image.source {
@@ -118,7 +113,9 @@ public extension String {
             } else if codeBlock.language == "url" {
                 ret = ret + "<div class=\"url\">"
             } else if let language = codeBlock.language {
-                ret = ret + "<pre><code class=\"language-\(language)\">"
+                ret = ret + "<pre><code class=\"language-\(language)\">\(codeBlock.code)</code></pre>"
+                // we do not want to parse the code haha
+                return ret
             }
             let c = Document(parsing: codeBlock.code)
             ret = ret + self.renderChildXML(c, config: config)
@@ -170,11 +167,7 @@ public extension String {
             ret = ret + "</a>"
         }
         else if let codeBlock = p as? CodeBlock {
-            if ["box", "info", "url"].contains(codeBlock.language) {
-                ret = ret + "</div>"
-            } else {
-                ret = ret + "</code></pre>"
-            }
+            ret = ret + "</div>"
         }
         else if let li = p as? ListItem {
             ret = ret + "</li>"
