@@ -75,13 +75,25 @@ public extension String {
             ret = ret + "<td>"
        }
         else if let html = p as? InlineHTML {
+            
             switch config.renderHtmlTags {
             case .hide:
                 return ret
             case .renderAsIs:
                 ret = ret + "\(html.rawHTML)"
             case .renderWrapped:
-                ret = ret + "<htmltag>\(html.rawHTML)"
+                // Not ideal yet, but the markdown parser doesn't help much.
+                if html.rawHTML.prefix(2) == "</" {
+                    ret = ret + "\(html.rawHTML)</htmltag>"
+                }
+                else {
+                    ret = ret + "<htmltag>\(html.rawHTML)"
+                }
+                
+                
+                
+                
+                
             }
             
         }

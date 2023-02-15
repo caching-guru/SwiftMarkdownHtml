@@ -13,6 +13,9 @@ import XCTest
 
 class MarkdownTest: XCTestCase {
 
+    func testInlineHtml() {
+        XCTAssertEqual("<p>and <htmltag><del>tags</del></htmltag> supported</p>", " and <del>tags</del> supported".renderMarkdownToXML())
+    }
 
     func testHeadlines() {
         XCTAssertEqual("<h1>h1 headline</h1>", "# h1 headline".renderMarkdownToXML())
