@@ -12,7 +12,13 @@ import XCTest
 
 
 class MarkdownTest: XCTestCase {
-    
+    func testHtmlTag() {
+        let md = """
+        In this example, we have added a <meta name="keywords"> tag to provide a list of keywords that describe the content of our website. It is important to note that the keyword meta tag is less important than it used to be, and some search engines may ignore it. However, it is still a good practice to include it, and it can help improve the relevancy of your website for specific keywords.
+        """
+        let xml = md.renderMarkdownToXML()
+        print("xml:\n", xml)
+    }
     func testInlineScripts() {
         let md = """
         Here is an example of how you could use the Title and Meta services in an Angular component:

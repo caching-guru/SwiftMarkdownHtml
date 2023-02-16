@@ -9,6 +9,9 @@ import Foundation
 import Markdown
 import SwiftSoup
 
+// Hopefully you hardly ever find these in markdown :)
+let emptyElementTagNames = ["img", "hr", "input", "link", "meta", "br", "area", "base", "col", "embed", "param", "source", "track", "wbr"]
+
 public extension String {
     struct MarkdownHtmlConfig {
         enum HTMLTagConfig {
@@ -88,6 +91,26 @@ public extension String {
                 }
                 else {
                     ret = ret + "<htmltag>\(html.rawHTML)"
+                    var singleTag = false
+                    if html.rawHTML.suffix(2) == "/>" {
+                        singleTag = true
+                    }
+                    else {
+                        var tagName = String(html.rawHTML.suffix(html.rawHTML.count-1))
+                        if tagName.contains(" ") {
+                            tagName = String(tagName.substring(to: tagName.index(of: " ")!))
+                        }
+                        else if tagName.contains(">") {
+                            tagName = String(tagName.substring(to: tagName.index(of: ">")!))
+                        }
+                        
+                        if emptyElementTagNames.contains(tagName.lowercased()) {
+                            singleTag = true
+                        }
+                    }
+                    if singleTag {
+                        ret = ret + "</htmltag>"
+                    }
                 }
             }
         }
