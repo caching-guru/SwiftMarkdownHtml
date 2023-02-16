@@ -10,7 +10,7 @@ import Markdown
 import SwiftSoup
 
 // Hopefully you hardly ever find these in markdown :)
-let emptyElementTagNames = ["img", "hr", "input", "link", "meta", "br", "area", "base", "col", "embed", "param", "source", "track", "wbr"]
+let emptyElementTagNames = ["img", "hr", "input", "link", "meta", "br", "area", "base", "col", "embed", "param", "source", "track", "wbr", "title"]
 
 public extension String {
     struct MarkdownHtmlConfig {
