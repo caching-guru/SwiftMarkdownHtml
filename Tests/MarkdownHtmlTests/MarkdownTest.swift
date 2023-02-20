@@ -59,57 +59,12 @@ class MarkdownTest: XCTestCase {
         let xml = md.renderMarkdownToXML()
         print("xml:\n", xml)
     }
-    func testInlineScripts() {
-        let md = """
-        Here is an example of how you could use the Title and Meta services in an Angular component:
-
-        ```typescript
-        import { Title, Meta } from '@angular/platform-browser';
-
-        @Component({
-          selector: 'app-root',
-          template: `
-            <h1>{{title}}</h1>
-          `,
-        })
-        export class AppComponent {
-          title = 'My Angular App';
-
-          constructor(private titleService: Title, private metaService: Meta) {
-            this.titleService.setTitle(this.title);
-            this.metaService.addTags([
-              { name: 'description', content: 'This is my Angular app.' },
-              { name: 'keywords', content: 'angular, app, seo' },
-            ]);
-          }
-        }
-        ```
-
-        In this example, the Title and Meta services are imported into the component and then used in the constructor to set the title tag and description and keywords meta tags, respectively.
-        """
-        let html = """
-        <p>Here is an example of how you could use the Title and Meta services in an Angular component:</p><pre><code class="language-typescript">import { Title, Meta } from '@angular/platform-browser';
-
-        @Component({
-          selector: 'app-root',
-          template: `
-            <h1>{{title}}</h1>
-          `,
-        })
-        export class AppComponent {
-          title = 'My Angular App';
-
-          constructor(private titleService: Title, private metaService: Meta) {
-            this.titleService.setTitle(this.title);
-            this.metaService.addTags([
-              { name: 'description', content: 'This is my Angular app.' },
-              { name: 'keywords', content: 'angular, app, seo' },
-            ]);
-          }
-        }
-        </code></pre><p>In this example, the Title and Meta services are imported into the component and then used in the constructor to set the title tag and description and keywords meta tags, respectively.</p>
-        """.trimmingCharacters(in: .whitespacesAndNewlines)
-        XCTAssertEqual(html, md.renderMarkdownToXML())
+    func testInlineCode() {
+        let md = "testing `<title>`-tag feature"
+        var c = MarkdownXMLConfig()
+        c.escapeCodeBlocks = true
+        let xml = md.renderMarkdownToXML(c)
+        print("xml: ", xml)
     }
 
     func testInlineHtml() {

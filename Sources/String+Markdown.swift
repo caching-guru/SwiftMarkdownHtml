@@ -130,7 +130,11 @@ public extension String {
         else if let ul = p as? Emphasis {
             ret = ret + "<i>"
         } else if let inlineCode = p as? InlineCode {
-            ret = ret + "<code class=\"inline language-javascript\">\(inlineCode.code)</code>"
+            var code = inlineCode.code
+            if config.escapeCodeBlocks {
+                code = code.htmlEscape()
+            }
+            ret = ret + "<code class=\"inline language-javascript\">\(code)</code>"
             return ret
         } else if let link = p as? Link, let d = link.destination {
             ret = ret + "<a href=\"\(d)\">"
