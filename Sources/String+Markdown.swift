@@ -8,21 +8,30 @@
 import Foundation
 import Markdown
 import SwiftSoup
+import HTMLEntities
 
 // Hopefully you hardly ever find these in markdown :)
 let emptyElementTagNames = ["img", "hr", "input", "link", "meta", "br", "area", "base", "col", "embed", "param", "source", "track", "wbr", "title"]
 
-public extension String {
-    struct MarkdownHtmlConfig {
-        enum HTMLTagConfig {
-            case hide
-            case renderAsIs
-            case renderWrapped
-        }
-        var renderHtmlTags: HTMLTagConfig
-        
-        public static var defaultConfig = MarkdownHtmlConfig(renderHtmlTags: .renderWrapped)
+public struct MarkdownHtmlConfig {
+    public enum HTMLTagConfig {
+        case hide
+        case renderAsIs
+        case renderWrapped
     }
+    public var renderHtmlTags: HTMLTagConfig
+    public var escapeCodeBlocks: Bool
+    
+    init() {
+        self.renderHtmlTags = .renderWrapped
+        self.escapeCodeBlocks = false
+    }
+    
+    public static var defaultConfig = MarkdownHtmlConfig()
+}
+
+public extension String {
+    
     func renderMarkdownToXML(_ config:MarkdownHtmlConfig = .defaultConfig) -> String {
         let document = Document(parsing: self)
         return self.renderChildXML(document, config: config)
@@ -136,7 +145,11 @@ public extension String {
             } else if codeBlock.language == "url" {
                 ret = ret + "<div class=\"url\">"
             } else if let language = codeBlock.language {
-                ret = ret + "<pre><code class=\"language-\(language)\">\(codeBlock.code)</code></pre>"
+                var code = codeBlock.code
+                if config.escapeCodeBlocks {
+                    code = code.htmlEscape()
+                }
+                ret = ret + "<pre><code class=\"language-\(language)\">\(code)</code></pre>"
                 // we do not want to parse the code haha
                 return ret
             }

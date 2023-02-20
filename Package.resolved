@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "HTMLEntities",
+        "repositoryURL": "https://github.com/Kitura/swift-html-entities.git",
+        "state": {
+          "branch": null,
+          "revision": "2b14531d0c36dbb7c1c45a4d38db9c2e7898a307",
+          "version": "3.0.200"
+        }
+      },
+      {
         "package": "swift-markdown",
         "repositoryURL": "https://github.com/apple/swift-markdown.git",
         "state": {

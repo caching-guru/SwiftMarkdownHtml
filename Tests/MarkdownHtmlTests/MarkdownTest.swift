@@ -12,6 +12,46 @@ import XCTest
 
 
 class MarkdownTest: XCTestCase {
+    func testCodeInContext() {
+        let article = """
+
+        In this example, we have imported the React Helmet library and used it to add a title and description meta tag to our website. The <title> tag sets the title of the page, which will be displayed in the browser's title bar. The <meta> tag sets the page's description, which search engines will use to summarize the content.
+
+        ## Keyword Meta Tag
+
+        The keyword meta tag is used to provide a list of keywords that describe the content of your website. Search engines use this information to determine the relevancy of your website to specific keywords.
+        Here's an example of how to use React Helmet to add a keyword meta tag to your React website:
+
+        ```javascript
+
+        import React from "react";
+        import { Helmet } from "react-helmet";
+
+        function MyApp() {
+          return (
+            <div>
+              <Helmet>
+                <title>My React Website</title>
+                <meta name="description" content="A website built with React" />
+                <meta name="keywords" content="React, JavaScript, Web Development" />
+              </Helmet>
+              {/* Your component code here */}
+            </div>
+          );
+        }
+
+        export default MyApp;
+        ```
+
+        In this example, we have added a <meta name="keywords"> tag to provide a list of keywords that describe the content of our website. It is important to note that the keyword meta tag is less important than it used to be, and some search engines may ignore it. However, it is still a good practice to include it, and it can help improve the relevancy of your website for specific keywords.
+        Meta Tag for Social Media
+
+        """
+        var config = MarkdownHtmlConfig()
+        config.escapeCodeBlocks = true
+        let xml = article.renderMarkdownToXML(config)
+        print("\n\nxml: \n", xml)
+    }
     func testHtmlTag() {
         let md = """
         In this example, we have imported the React Helmet library and used it to add a title and description meta tag to our website. The <title> tag sets the title of the page, which will be displayed in the browser's title bar. The <meta> tag sets the page's description, which search engines will use to summarize the content.
