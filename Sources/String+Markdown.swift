@@ -94,12 +94,16 @@ public extension String {
             case .renderAsIs:
                 ret = ret + "\(html.rawHTML)"
             case .renderWrapped:
+                var code = html.rawHTML
+                if config.escapeCodeBlocks {
+                    code = code.htmlEscape()
+                }
                 // Not ideal yet, but the markdown parser doesn't help much.
                 if html.rawHTML.prefix(2) == "</" {
-                    ret = ret + "\(html.rawHTML)</htmltag>"
+                    ret = ret + "\(code)</htmltag>"
                 }
                 else {
-                    ret = ret + "<htmltag>\(html.rawHTML)"
+                    ret = ret + "<htmltag>\(code)"
                     var singleTag = false
                     if html.rawHTML.suffix(2) == "/>" {
                         singleTag = true
