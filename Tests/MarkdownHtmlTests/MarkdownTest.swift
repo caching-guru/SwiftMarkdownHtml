@@ -47,7 +47,7 @@ class MarkdownTest: XCTestCase {
         Meta Tag for Social Media
 
         """
-        var config = MarkdownHtmlConfig()
+        var config = MarkdownXMLConfig()
         config.escapeCodeBlocks = true
         let xml = article.renderMarkdownToXML(config)
         print("\n\nxml: \n", xml)

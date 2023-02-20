@@ -13,7 +13,7 @@ import HTMLEntities
 // Hopefully you hardly ever find these in markdown :)
 let emptyElementTagNames = ["img", "hr", "input", "link", "meta", "br", "area", "base", "col", "embed", "param", "source", "track", "wbr", "title"]
 
-public struct MarkdownHtmlConfig {
+public struct MarkdownXMLConfig {
     public enum HTMLTagConfig {
         case hide
         case renderAsIs
@@ -22,21 +22,21 @@ public struct MarkdownHtmlConfig {
     public var renderHtmlTags: HTMLTagConfig
     public var escapeCodeBlocks: Bool
     
-    init() {
+    public init() {
         self.renderHtmlTags = .renderWrapped
         self.escapeCodeBlocks = false
     }
     
-    public static var defaultConfig = MarkdownHtmlConfig()
+    public static var defaultConfig = MarkdownXMLConfig()
 }
 
 public extension String {
     
-    func renderMarkdownToXML(_ config:MarkdownHtmlConfig = .defaultConfig) -> String {
+    func renderMarkdownToXML(_ config:MarkdownXMLConfig = .defaultConfig) -> String {
         let document = Document(parsing: self)
         return self.renderChildXML(document, config: config)
     }
-    private func renderChildXML(_ p: Markup, config: MarkdownHtmlConfig) -> String {
+    private func renderChildXML(_ p: Markup, config: MarkdownXMLConfig) -> String {
         var ret = ""
         if let para = p as? Paragraph {
             ret = "<p>"
